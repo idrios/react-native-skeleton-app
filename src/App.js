@@ -1,6 +1,6 @@
 import React, { useState } from "react" 
 import { SafeAreaView, StyleSheet, View, Button, Text } from "react-native"
-import { LoginScreen, HomeScreen, MapScreen, ListScreen } from "./components/screens"
+import { LoginScreen, HomeScreen, MapScreen, LocationListScreen } from "./components/screens"
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { SCREEN } from "./res/values/constants"
@@ -55,7 +55,7 @@ const App = () => {
               ), 
               headerRight: HeaderRight
             }}
-            component={ListScreen}
+            component={LocationListScreen}
             />
           <Tab.Screen name={SCREEN.MAP} 
             component={MapScreen} 

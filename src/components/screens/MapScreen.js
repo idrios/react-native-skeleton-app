@@ -47,7 +47,7 @@ const MapScreen = () => {
           rotateEnabled={true}
           >
           <MapboxGL.Camera
-            zoomLevel={11}
+            zoomLevel={10}
             centerCoordinate={mapData ? mapData.origin : [0, 0]}
             pitch={0}
             animationMode={'flyTo'}
@@ -67,8 +67,8 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   container: {
-    height: 300,
-    width: 300,
+    height: "100%",
+    width: "100%",
   },
   text: {
     fontSize: 26

@@ -11,25 +11,29 @@ MapboxGL.setTelemetryEnabled(false)
 MapboxGL.setWellKnownTileServer('Mapbox')
 
 const MapScreen = () => {
-  const [mapMarkers, setMapMarkers] = React.useState()
-  const [mapOrigin, setMapOrigin] = React.useState()
+  const [mapData, setMapData] = React.useState()
   React.useEffect(() => {
-    if(!mapMarkers){
-      setMapMarkers(DATA.map(x => (<MapboxGL.PointAnnotation 
-        id={x.name}
-        coordinate={[x.longitude, x.latitude]}
-        >
-        <View>
-          <FontAwesomeIcon icon={faMapPin} size={30}/>
-        </View>
-      </MapboxGL.PointAnnotation>
-        )))
-    }
-    if(mapMarkers && !mapOrigin){
-      setMapOrigin([ // set origin at the average lat/long of each marker
-        DATA.map(x => x.longitude).reduce((acc, long) => acc+long)/mapMarkers.length, 
-        DATA.map(x => x.latitude).reduce((acc, lat) => acc+lat)/mapMarkers.length
-      ])
+    if(!mapData){
+      const locationPins = DATA.map(x => (
+        <MapboxGL.PointAnnotation 
+          id={x.id}
+          key={x.name}
+          coordinate={[x.longitude, x.latitude]}
+          >
+          <View>
+            <FontAwesomeIcon icon={faMapPin} size={30}/>
+          </View>
+        </MapboxGL.PointAnnotation>
+      ))
+      const origin = [ 
+        DATA.map(x => x.longitude).reduce((acc, long) => acc+long)/DATA.length, 
+        DATA.map(x => x.latitude).reduce((acc, lat) => acc+lat)/DATA.length
+      ]
+      setMapData({
+        locationPins: locationPins, 
+        origin: origin
+        }
+      )
     }
   }, []); 
 
@@ -44,12 +48,12 @@ const MapScreen = () => {
           >
           <MapboxGL.Camera
             zoomLevel={11}
-            centerCoordinate={mapOrigin}
+            centerCoordinate={mapData ? mapData.origin : [0, 0]}
             pitch={0}
             animationMode={'flyTo'}
             animationDuration={6000}
             />
-            {mapMarkers}
+            {mapData ? mapData.locationPins : <></>}
         </MapboxGL.MapView>
       </View>
     </View>

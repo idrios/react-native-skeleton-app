@@ -1,12 +1,13 @@
 import React from 'react'
 import { SafeAreaView, StyleSheet, Text, FlatList, View, ImageBackground } from 'react-native'
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import DATA from '../data/WeatherData'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faSun, faCloud, faCloudRain } from '@fortawesome/free-solid-svg-icons'
 
 const weatherMap = {
-  "clouds": <MaterialCommunityIcons name="lamp" color={"white"} size={30}/>, 
-  "rain": <MaterialCommunityIcons name="tent" color={"white"} size={30}/>,
-  "clear": <MaterialCommunityIcons name="map" color={"white"} size={30}/>
+  "clouds": <FontAwesomeIcon icon={faCloud} size={30}/>, 
+  "rain": <FontAwesomeIcon icon={faCloudRain} size={30}/>, 
+  "clear": <FontAwesomeIcon icon={faSun} size={30}/>, 
 }
 
 const Item = (props) => {

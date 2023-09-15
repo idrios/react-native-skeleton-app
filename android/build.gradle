@@ -9,6 +9,7 @@ buildscript {
 
         // We use NDK 23 which has both M1 support and is the side-by-side NDK version from AGP.
         ndkVersion = "23.1.7779620"
+        RNMapboxMapsImpl = "mapbox" // required for v10
     }
     repositories {
         google()
@@ -19,3 +20,22 @@ buildscript {
         classpath("com.facebook.react:react-native-gradle-plugin")
     }
 }
+
+allprojects {
+    repositories {
+        maven {
+            url 'https://api.mapbox.com/downloads/v2/releases/maven'
+            authentication {
+                basic(BasicAuthentication)
+            }
+            credentials {
+                // Do not change the username below.
+                // This should always be `mapbox` (not your username).
+                username = 'mapbox'
+                // REQUIRED: generate a secret key from mapbox, and copy here
+                password = '' 
+            }
+        }
+    }
+}
+

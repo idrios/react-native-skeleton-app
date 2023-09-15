@@ -1,11 +1,12 @@
 import React, { useState } from "react" 
 import { SafeAreaView, StyleSheet, View, Button, Text } from "react-native"
 import { LoginScreen, HomeScreen, MapScreen, ListScreen } from "./components/screens"
-import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons"
 import { NavigationContainer } from "@react-navigation/native"
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs"
 import { SCREEN } from "./res/values/constants"
 import { dateTimeNow, dateTimeNowFormatted } from "./util/util"
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faHome, faCloud, faMap} from '@fortawesome/free-solid-svg-icons'
 
 const Tab = createBottomTabNavigator();
 
@@ -33,41 +34,41 @@ const App = () => {
   }
 
   return (
-    <NavigationContainer>
-      <Tab.Navigator>
-        <Tab.Screen name={SCREEN.HOME} 
-          options={{
-            title: 'Home',
-            tabBarIcon: ({ color, size }) => (
-              // these icons are bugging for me so I've picked random ones
-              <MaterialCommunityIcons name="map" color={color} size={size}/> 
-            ), 
-            headerRight: HeaderRight
-          }}
-          component={HomeScreen} 
-          />
-        <Tab.Screen name={SCREEN.LIST} 
-          options={{
-            title: 'List',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="video" color={color} size={size}/>
-            ), 
-            headerRight: HeaderRight
-          }}
-          component={ListScreen}
-          />
-        <Tab.Screen name={SCREEN.MAP} 
-          component={MapScreen} 
-          options={{
-            title: 'Map',
-            tabBarIcon: ({ color, size }) => (
-              <MaterialCommunityIcons name="dog" color={color} size={size}/>
-            ), 
-            headerRight: HeaderRight
-          }}
-          />
-      </Tab.Navigator>
-    </NavigationContainer>
+      <NavigationContainer>
+        <Tab.Navigator>
+          <Tab.Screen name={SCREEN.HOME} 
+            options={{
+              title: 'Home',
+              tabBarIcon: ({ color, size }) => (
+                // these icons are bugging for me so I've picked random ones
+                <FontAwesomeIcon icon={faHome} color={color} size={size}/> 
+              ), 
+              headerRight: HeaderRight
+            }}
+            component={HomeScreen} 
+            />
+          <Tab.Screen name={SCREEN.LIST} 
+            options={{
+              title: 'List',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesomeIcon icon={faCloud} color={color} size={size}/> 
+              ), 
+              headerRight: HeaderRight
+            }}
+            component={ListScreen}
+            />
+          <Tab.Screen name={SCREEN.MAP} 
+            component={MapScreen} 
+            options={{
+              title: 'Map',
+              tabBarIcon: ({ color, size }) => (
+                <FontAwesomeIcon icon={faMap} color={color} size={size}/> 
+              ), 
+              headerRight: HeaderRight
+            }}
+            />
+        </Tab.Navigator>
+      </NavigationContainer>
   )
 }
 

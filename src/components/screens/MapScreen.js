@@ -1,34 +1,43 @@
-import React from 'react';
-import { StyleSheet, View, Text } from 'react-native';
-import Mapbox from '@rnmapbox/maps';
-import { dateTimeNowFormatted } from '../../util/util';
+import React from 'react'
+import { StyleSheet, View, Text } from 'react-native'
+import MapboxGL from '@rnmapbox/maps'
+import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
+import { faMapPin } from '@fortawesome/free-solid-svg-icons'
 
-Mapbox.setAccessToken('<YOUR_ACCESSTOKEN>');
 
-const createConnection = (serverUrl) => {
-  const connection = {
-    connect: () => {console.info(`[${dateTimeNowFormatted()}][${serverUrl}] connected`)},
-    disconnect: () => {console.info(`[${dateTimeNowFormatted()}] disconnected`)}
-  }
-  return connection
-}
+MapboxGL.setAccessToken('<YOUR_ACCESSTOKEN>')
+MapboxGL.setTelemetryEnabled(false)
+MapboxGL.setWellKnownTileServer('Mapbox')
 
 const MapScreen = () => {
-  const [serverUrl, setServerUrl] = React.useState("0.0.0.0:8000")
   React.useEffect(() => {
-  	//TODO: something with realtime data using Mapbox instead of this fake implementation
-    const connection = createConnection(serverUrl);
-    connection.connect();
-    return () => {
-      connection.disconnect();
-    };
-  }, [serverUrl]);
+  }, []); 
 
   return (
     <View style={styles.page}>
-      <Text style={styles.text}>Mapbox funtionality not yet implemented</Text>
       <View style={styles.container}>
-        <Mapbox.MapView style={styles.map} />
+        <MapboxGL.MapView
+          style={styles.map}
+          zoomEnabled={true}
+          styleURL='mapbox://styles/mapbox/streets-v12'
+          rotateEnabled={true}
+          >
+          <MapboxGL.Camera
+            zoomLevel={15}
+            centerCoordinate={[-83.012, 40.001]}
+            pitch={60}
+            animationMode={'flyTo'}
+            animationDuration={6000}
+            />
+            <MapboxGL.PointAnnotation 
+              id="marker"
+              coordinate={[-83.012, 40.001]}
+              >
+              <View>
+                <FontAwesomeIcon icon={faMapPin} size={30}/>
+              </View>
+            </MapboxGL.PointAnnotation>
+        </MapboxGL.MapView>
       </View>
     </View>
   );

@@ -1,16 +1,36 @@
 import React from 'react'
 import { StyleSheet, View, Text } from 'react-native'
 import MapboxGL from '@rnmapbox/maps'
+import DATA from '../data/LocationData'
 import { FontAwesomeIcon } from '@fortawesome/react-native-fontawesome'
 import { faMapPin } from '@fortawesome/free-solid-svg-icons'
 
 
-MapboxGL.setAccessToken('<YOUR_ACCESSTOKEN>')
+MapboxGL.setAccessToken('')
 MapboxGL.setTelemetryEnabled(false)
 MapboxGL.setWellKnownTileServer('Mapbox')
 
 const MapScreen = () => {
+  const [mapMarkers, setMapMarkers] = React.useState()
+  const [mapOrigin, setMapOrigin] = React.useState()
   React.useEffect(() => {
+    if(!mapMarkers){
+      setMapMarkers(DATA.map(x => (<MapboxGL.PointAnnotation 
+        id={x.name}
+        coordinate={[x.longitude, x.latitude]}
+        >
+        <View>
+          <FontAwesomeIcon icon={faMapPin} size={30}/>
+        </View>
+      </MapboxGL.PointAnnotation>
+        )))
+    }
+    if(mapMarkers && !mapOrigin){
+      setMapOrigin([ // set origin at the average lat/long of each marker
+        DATA.map(x => x.longitude).reduce((acc, long) => acc+long)/mapMarkers.length, 
+        DATA.map(x => x.latitude).reduce((acc, lat) => acc+lat)/mapMarkers.length
+      ])
+    }
   }, []); 
 
   return (
@@ -23,20 +43,13 @@ const MapScreen = () => {
           rotateEnabled={true}
           >
           <MapboxGL.Camera
-            zoomLevel={15}
-            centerCoordinate={[-83.012, 40.001]}
-            pitch={60}
+            zoomLevel={11}
+            centerCoordinate={mapOrigin}
+            pitch={0}
             animationMode={'flyTo'}
             animationDuration={6000}
             />
-            <MapboxGL.PointAnnotation 
-              id="marker"
-              coordinate={[-83.012, 40.001]}
-              >
-              <View>
-                <FontAwesomeIcon icon={faMapPin} size={30}/>
-              </View>
-            </MapboxGL.PointAnnotation>
+            {mapMarkers}
         </MapboxGL.MapView>
       </View>
     </View>
